@@ -1,0 +1,30 @@
+# systemd-Unit für ohgeraet – den Raspberry Pi als Gerät
+#   sudo cp build/kapitel18_geraet/ohgeraet /usr/local/bin/
+#   sudo cp ohgeraet.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now ohgeraet
+#   journalctl -u ohgeraet -f
+[Unit]
+Description=Raspberry Pi als Gerät für openHAB (REST API, C++)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ohgeraet
+# GPIO: Mitglied der Gruppe gpio (Raspberry Pi OS)
+SupplementaryGroups=gpio
+Environment=OPENHAB_URL=http://openhab:8080
+# Datei mit einer Zeile OPENHAB_TOKEN=oh.…, nur für root lesbar
+EnvironmentFile=/etc/ohgeraet.env
+ExecStart=/usr/local/bin/ohgeraet --intervall=30 --ausgang=gpiochip0:17
+Restart=on-failure
+RestartSec=10
+# Dem Dienst nur erlauben, was er braucht
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+DeviceAllow=/dev/gpiochip0 rw
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+.env
+build/
+build-*/
+*.log
+berichte/
+# Dateien, die Beispiele erzeugen
+verlauf.txt
+*.csv
+# colcon (ROS 2, Kapitel 20)
+install/
+log/

@@ -1,0 +1,7 @@
+# Kapitel 20: Parameter der Brücke
+#   ros2 run ohbruecke haus_bruecke --ros-args --params-file config/bruecke.yaml
+# Adresse und Token kommen aus OPENHAB_URL und OPENHAB_TOKEN – Parameter kann jeder
+# Teilnehmer mit "ros2 param get" lesen, ein Token gehört nicht hinein.
+haus_bruecke:
+  ros__parameters:
+    items: ["Wohnzimmer_Licht", "Kueche_Rollladen", "Flur_Haustuer"]

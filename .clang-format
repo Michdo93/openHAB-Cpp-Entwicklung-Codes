@@ -1,0 +1,19 @@
+# Satzbreite des Buchs: höchstens 92 Zeichen je Zeile
+BasedOnStyle: Google
+IndentWidth: 4
+ColumnLimit: 92
+DerivePointerAlignment: false
+PointerAlignment: Left
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Always
+IndentCaseLabels: false
+SortIncludes: false
+AlignTrailingComments: true
+SpacesBeforeTrailingComments: 2
+BreakStringLiterals: true
+ReflowComments: true
+AlignConsecutiveMacros: true
+Cpp11BracedListStyle: true
+AccessModifierOffset: -4

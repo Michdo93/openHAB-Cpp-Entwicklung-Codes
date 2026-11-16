@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- Kapitel 20: ohbruecke – ROS-2-Paket, Brücke zwischen Roboter und Haus -->
+<package format="3">
+  <name>ohbruecke</name>
+  <version>1.0.0</version>
+  <description>Brücke zwischen ROS 2 und openHAB (cpp-openhab-rest-client)</description>
+  <maintainer
+    email="michdo93@users.noreply.github.com">Michael Christian Dörflinger</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

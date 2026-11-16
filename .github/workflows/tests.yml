@@ -1,0 +1,42 @@
+# Kapitel 19: Tests bei jedem Push – Unit-Tests, ein frisches openHAB mit der
+# Übungskonfiguration für die Integrationstests, alles mit AddressSanitizer;
+# dazu das ROS-2-Paket aus Kapitel 20 in einem ROS-Container.
+name: Tests
+on: [push, pull_request]
+jobs:
+  ctest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Werkzeuge und Bibliotheken
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake
+             libcurl4-openssl-dev nlohmann-json3-dev qt6-base-dev libgtest-dev libgmock-dev
+      - name: Übersetzen mit Sanitizern (holt cpp-openhab-test-suite und -rest-client)
+        run: cmake -S . -B build -DMIT_ASAN=ON && cmake --build build -j2
+      - name: Unit-Tests
+        run: ctest --test-dir build -L unit --output-on-failure
+        env:
+          QT_QPA_PLATFORM: offscreen
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: openHAB mit der Übungskonfiguration
+        run: bash .github/openhab/start.sh
+        env:
+          EXERCISE_CONF: ${{ github.workspace }}/openhab-conf
+      - name: Integrationstests
+        run: ctest --test-dir build -L integration --output-on-failure
+
+  ros2:
+    runs-on: ubuntu-latest
+    container: ros:jazzy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bibliotheken
+        run: apt-get update && apt-get install -y libcurl4-openssl-dev nlohmann-json3-dev
+      - name: colcon build
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          colcon build --base-paths kapitel20_projekte/ros2
